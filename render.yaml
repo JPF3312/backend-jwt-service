@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: backend-jwt-service
+    env: docker
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: DB_HOST
+        fromDatabase:
+          name: jwt-postgres-db
+          property: host
+      - key: DB_USER
+        fromDatabase:
+          name: jwt-postgres-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: jwt-postgres-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: jwt-postgres-db
+          property: database
+      - key: DB_PORT
+        value: 5432
+      - key: JWT_SECRET
+        generateValue: true
+
+databases:
+  - name: jwt-postgres-db
+    plan: free
+    databaseName: jwt_db
+    user: postgres
