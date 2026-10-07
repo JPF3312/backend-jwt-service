@@ -9,7 +9,7 @@ Containerized RESTful API microservice built with **Node.js**, **Express**, and 
 
 ---
 
-## 🚀 Features
+## Features
 
 - **User Authentication:** Registration and Login endpoints with encrypted password validation (`bcryptjs`).
 - **Stateless Authorization:** Secure route protection using signed JWTs.
@@ -20,7 +20,7 @@ Containerized RESTful API microservice built with **Node.js**, **Express**, and 
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Runtime & Framework:** Node.js, Express.js
 - **Database:** PostgreSQL (`pg` driver)
@@ -29,7 +29,7 @@ Containerized RESTful API microservice built with **Node.js**, **Express**, and 
 
 ---
 
-## 📦 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Docker & Docker Compose installed
