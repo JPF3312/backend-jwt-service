@@ -11,6 +11,16 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Ruta raíz de bienvenida
+app.get('/', (req, res) => {
+  res.json({
+    status: 'success',
+    message: '🚀 API RESTful de Autenticación funcionando correctamente en Render',
+    version: '1.0.0',
+    documentation: 'https://github.com/JPF3312/backend-jwt-service'
+  });
+});
+
 // Rutas públicas
 app.use('/api/auth', authRoutes);
 
@@ -29,3 +39,4 @@ app.get('/api/profile', verifyToken, (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor iniciado en http://localhost:${PORT}`);
 });
+
