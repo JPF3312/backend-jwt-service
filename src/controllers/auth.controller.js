@@ -1,10 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const db = require('../config/db');
 
-// Base de datos simulada en memoria
-const users = [];
-
-// Registro de usuario
+// Registro de usuario en PostgreSQL
 const register = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -13,8 +11,9 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'Email y contraseña son obligatorios' });
     }
 
-    const userExists = users.find((u) => u.email === email);
-    if (userExists) {
+    // Verificar si el usuario ya existe
+    const userCheck = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (userCheck.rows.length > 0) {
       return res.status(400).json({ message: 'El usuario ya existe' });
     }
 
@@ -22,10 +21,16 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = { id: Date.now(), email, password: hashedPassword };
-    users.push(newUser);
+    // Insertar nuevo usuario en la BD
+    const newUser = await db.query(
+      'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email, created_at',
+      [email, hashedPassword]
+    );
 
-    res.status(201).json({ message: 'Usuario registrado exitosamente', userId: newUser.id });
+    res.status(201).json({
+      message: 'Usuario registrado exitosamente',
+      user: newUser.rows[0],
+    });
   } catch (error) {
     res.status(500).json({ message: 'Error en el servidor', error: error.message });
   }
@@ -36,10 +41,12 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = users.find((u) => u.email === email);
-    if (!user) {
+    const userResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (userResult.rows.length === 0) {
       return res.status(400).json({ message: 'Credenciales inválidas' });
     }
+
+    const user = userResult.rows[0];
 
     // Verificar la contraseña encriptada
     const isMatch = await bcrypt.compare(password, user.password);
@@ -50,7 +57,7 @@ const login = async (req, res) => {
     // Generar el token JWT
     const token = jwt.sign(
       { id: user.id, email: user.email },
-      process.env.JWT_SECRET || 'secret_key',
+      process.env.JWT_SECRET || 'clave_secreta_para_desarrollo_123',
       { expiresIn: '1h' }
     );
 
