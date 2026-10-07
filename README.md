@@ -5,8 +5,9 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
 ![Docker](https://img.shields.io/badge/Docker-Containers-blue)
 
-Containerized RESTful API microservice built with **Node.js**, **Express**, and **PostgreSQL**, running in **Docker Compose**. Features secure authentication using **JSON Web Tokens (JWT)** and password hashing with **Bcrypt**.
+🌐 **Live Production API:** [https://backend-jwt-service.onrender.com](https://backend-jwt-service.onrender.com)
 
+Containerized RESTful API microservice built with **Node.js**, **Express**, and **PostgreSQL**, running in **Docker Compose**. Features secure authentication using **JSON Web Tokens (JWT)** and password hashing with **Bcrypt**.
 ---
 
 ## Features
