@@ -32,4 +32,4 @@ databases:
   - name: jwt-postgres-db
     plan: free
     databaseName: jwt_db
-    user: postgres
+    user: jwt_user
